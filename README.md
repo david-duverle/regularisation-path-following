@@ -1,7 +1,7 @@
 regularisation-path-following
 =============================
 
-Regularisation-path algorithm using pattern of input variables as covariates to fit a Cox Proportional Hazards regression model.
+Regularisation-path algorithm using patterns of input variables (itemsets) as covariates to fit a Cox Proportional Hazards regression model.
 
 Algorithm and code based on work by [Park & Hastie (2006)](http://www.stanford.edu/~hastie/Papers/glmpath.jrssb.pdf): *L1 Regularization Path Algorithm for Generalized Linear Models*.
 
