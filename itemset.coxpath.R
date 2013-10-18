@@ -67,9 +67,9 @@ step.length.cox <- function(corrector, depth, lambda2, exprs.all, d, rslist, wli
       active.array = gene.set.name.to.num.array(active, colnames(exprs.all), depth)
       idxs = as.integer(rep(0, depth))
 		
-      res = .C("get_min_itemset", as.integer(depth), as.integer(exprs.all), as.integer(nrow(exprs.all)), as.integer(ncol(exprs.all)), as.real(w.1), as.real(w.2), as.integer(t(active.array)), as.integer(nrow(active.array)), as.real(corrector$lambda), as.real(curmin), idxs, as.integer(global.trace))
+      res = .C("get_min_itemset", as.integer(depth), as.integer(exprs.all), as.integer(nrow(exprs.all)), as.integer(ncol(exprs.all)), as.double(w.1), as.double(w.2), as.integer(t(active.array)), as.integer(nrow(active.array)), as.double(corrector$lambda), as.double(curmin), idxs, as.integer(global.trace))
       
-      h = as.real(res[10])
+      h = as.double(res[10])
       min.idxs = as.integer(res[[11]])
       
       if(min.idxs[1] > 0)
@@ -173,12 +173,12 @@ corrector.cox <- function(exprs.all, depth, d, rslist, wlist, rept, method, acti
 		
 		sol <- .C('solve_coxpath',
 		          as.integer(2 * p),
-		          as.real(b2),
-		          as.real(rep(0, 2 * p)),
-		          as.real(rep(1e300, 2 * p)),
+		          as.double(b2),
+		          as.double(rep(0, 2 * p)),
+		          as.double(rep(1e300, 2 * p)),
 		          as.integer(0),
-		          as.real(z),
-		          as.real(mz))
+		          as.double(z),
+		          as.double(mz))
 		if (sol[[5]] != 0) {
 		  cat('Convergence warning\n')
 		}
@@ -291,7 +291,7 @@ corrector.cox <- function(exprs.all, depth, d, rslist, wlist, rept, method, acti
 			vals = strsplit(readLines(fc), " ")
 			close(fc)
 				
-			lambdas = lapply(vals, function(val) { as.real(substr(val[[length(val)]], 2, nchar(val[[length(val)]])-1)) })
+			lambdas = lapply(vals, function(val) { as.double(substr(val[[length(val)]], 2, nchar(val[[length(val)]])-1)) })
 			i = which.max(lambdas)
 			lambda = lambdas[[i]]
 			c1 = as.integer(vals[[i]][1:length(vals[[i]])-1])
@@ -311,7 +311,7 @@ corrector.cox <- function(exprs.all, depth, d, rslist, wlist, rept, method, acti
 			fc <- file(paste(filename.prefix, "output.dat", sep=''))
 			vals = strsplit(readLines(fc), " ")
 			close(fc)
-			lambdas = lapply(vals, function(val) { as.real(substr(val[[length(val)]], 2, nchar(val[[length(val)]])-1)) })
+			lambdas = lapply(vals, function(val) { as.double(substr(val[[length(val)]], 2, nchar(val[[length(val)]])-1)) })
 			i = which.max(lambdas)
 
 			if(length(i) == 1 && lambdas[[i]] > lambda) {
